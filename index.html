@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <title>Weather App by Anup</title>
+</head>
+
+<body>
+    <main>
+        <div class="submit-message">Press Enter <img src="images/enter.png"></div>
+        <div class="center-content">
+            <header>
+                <form>
+                    <div class="resizing-input">
+                        <h1>
+                            It&#39;s partly cloudy in <span class="pin">📍</span><span id="hide"></span><input id="txt" type="text" placeholder="miami" value="Miami" required maxlength="50"> right now
+                            <span style="display:none"></span>
+                        </h1>
+
+                    </div>
+                    <button type="submit" hidden></button>
+                </form>
+            </header>
+
+            <div class="break"></div>
+
+            <div class="data-display">
+                <div class="main-icon margin">🌤</div>
+                <div class="temperature margin">
+                    90 <span class="feels-like">Feels like 99</span>
+                </div>
+                <div class="other-details margin">
+                    <div class="wind">
+                        <span class="mini-icons">💨</span>
+                        8 <span class="units">mph</span>
+                    </div>
+                    <div class="humidity">
+                        <span class="mini-icons">💧</span>
+                        87 <span class="units">%</span>
+                    </div>
+                    <div class="precipitation">
+                        <span class="mini-icons precipitation-icon">🝟</span>
+                        0 <span class="units">%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h1 id="time"></h1>
+        <footer>
+            <button type="button" class="fah btn-active">&deg;F</button>
+
+            <button type="button" class="cel">&deg;C</button>
+            <button class="change">Change Location</button>
+        </footer>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+    <script>
+        $(function() {
+            $('#hide').text($('#txt').val());
+            $('#txt').width($('#hide').width());
+        }).on('input', function() {
+            $('#hide').text($('#txt').val());
+            const txtVal = $('#txt').val();
+            $('#txt').width($('#hide').width() + txtVal.length * 2.5);
+            $('.pin').css("display", "inline-block");
+            $('.submit-message').addClass("show-message");
+        });
+        $('input').focus(function() {
+            $('input').val("");
+        });
+        if (!($("input").is(":focus"))) {
+            $('input').val("Miami");
+        }
+        $('.change').click(function() {
+            $('input').focus();
+        });
+
+        $('button.fah').click(function() {
+            $('button.fah').addClass("btn-active")
+            $('button.cel').removeClass("btn-active")
+        })
+        $('button.cel').click(function() {
+            $('button.cel').addClass("btn-active")
+            $('button.fah').removeClass("btn-active")
+        })
+    </script>
+    <script>
+        const offset = -4.0;
+
+        function getTime(offset) {
+            var span = document.getElementById('time');
+            var d = new Date();
+            localTime = d.getTime();
+            localOffset = d.getTimezoneOffset() * 60000;
+
+            // obtain UTC time in msec
+            utc = localTime + localOffset;
+
+            // create new Date object for different city
+            // using the supplied offset
+            var nd = new Date(utc + (3600000 * offset));
+            utc = new Date(utc);
+            // return time as a string
+            span.textContent = nd.toLocaleString();
+
+
+            //            $("#local").html(nd.toLocaleString());
+            //            $("#utc").html(utc.toLocaleString());
+        }
+
+
+        getTime(offset);
+    </script>
+</body>
+
+</html>
